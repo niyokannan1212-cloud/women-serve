@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women Service Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --dark-blue: #142552;
+    --mid-blue: #1a3a6e;
+    --accent-blue: #2563a8;
+    --light-blue: #7ba7d4;
+    --soft-gold: #c9a84c;
+    --rose: #d4609a;
+    --cream: #f5f0ea;
+    --white: #ffffff;
+    --text-light: #e8eef8;
+    --card-bg: #162040;
+    --overlay: rgba(13,27,62,0.92);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    background: rgba(13,27,62,0.97);
+    border-bottom: 1px solid rgba(125,167,212,0.2);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+    backdrop-filter: blur(10px);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--soft-gold); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--soft-gold); }
+  .nav-btn {
+    background: var(--soft-gold); color: var(--navy); border: none;
+    padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--white); }
+
+  /* HERO */
+  #hero {
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; padding-top: 64px;
+    background: radial-gradient(ellipse at 60% 50%, #1e3a7a 0%, #0d1b3e 70%);
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content:''; position:absolute; inset:0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-image-wrap {
+    position: relative; margin-bottom: 2rem;
+    border-radius: 50%; overflow: hidden;
+    width: 260px; height: 260px;
+    border: 4px solid var(--soft-gold);
+    box-shadow: 0 0 60px rgba(201,168,76,0.3);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 40px rgba(201,168,76,0.3)} 50%{box-shadow:0 0 80px rgba(201,168,76,0.5)} }
+  .hero-image-wrap img { width:100%; height:100%; object-fit:cover; object-position:center top; filter: brightness(1.05) saturate(1.1); }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900; color: var(--white);
+    line-height: 1.15; margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--soft-gold); }
+  .hero p { font-size: 1.1rem; color: var(--text-light); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--soft-gold); color: var(--navy); font-weight: 700;
+    padding: 0.85rem 2rem; border-radius: 8px; border: none;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+  .btn-outline {
+    background: transparent; color: var(--white); font-weight: 600;
+    padding: 0.85rem 2rem; border-radius: 8px; border: 2px solid rgba(255,255,255,0.4);
+    cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-outline:hover { border-color: var(--soft-gold); color: var(--soft-gold); }
+  .scroll-indicator { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); animation:bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+  .scroll-indicator span { display:block; width:24px; height:24px; border-right:2px solid var(--soft-gold); border-bottom:2px solid var(--soft-gold); transform:rotate(45deg); margin:auto; }
+
+  /* SECTIONS */
+  section { padding: 6rem 2rem; }
+  .section-label {
+    text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.75rem;
+    color: var(--soft-gold); font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; color: var(--white); margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--text-light); font-size: 1rem; line-height: 1.7; max-width: 600px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .text-center { text-align: center; }
+  .text-center .section-sub { margin: 0 auto; }
+
+  /* PROFESSIONS */
+  #professions { background: #0f2044; }
+  .professions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .profession-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(125,167,212,0.15);
+    border-radius: 16px; padding: 2rem 1.5rem; text-align: center;
+    cursor: pointer; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .profession-card::before {
+    content:''; position:absolute; inset:0; border-radius:16px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(37,99,168,0.08));
+    opacity:0; transition:opacity 0.3s;
+  }
+  .profession-card:hover::before { opacity:1; }
+  .profession-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--soft-gold);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.2);
+  }
+  .profession-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+  .profession-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.5rem; }
+  .profession-card p { font-size: 0.83rem; color: var(--light-blue); line-height: 1.5; }
+  .profession-badge {
+    display: inline-block; background: rgba(201,168,76,0.15); color: var(--soft-gold);
+    font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 4px;
+    margin-top: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* MY PROFILE SECTION */
+  #my-profile { background: var(--navy); }
+  .profile-form-card {
+    background: var(--card-bg); border: 1px solid rgba(125,167,212,0.2);
+    border-radius: 20px; padding: 2.5rem; max-width: 600px; margin: 3rem auto 0;
+  }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--light-blue); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(125,167,212,0.25); border-radius: 8px;
+    color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--soft-gold); }
+  .form-group select option { background: var(--dark-blue); }
+  .price-row { display: flex; gap: 1rem; align-items: center; }
+  .price-row input { flex: 1; }
+  .rupee-label { color: var(--soft-gold); font-size: 1.2rem; font-weight: 700; }
+  .save-btn {
+    width: 100%; background: linear-gradient(135deg, var(--soft-gold), #e8b84b);
+    color: var(--navy); font-weight: 700; font-size: 1rem;
+    padding: 1rem; border: none; border-radius: 10px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 0.5rem;
+  }
+  .save-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+  .success-msg { display:none; background: rgba(37,200,120,0.15); border: 1px solid rgba(37,200,120,0.3); border-radius: 8px; padding: 1rem; margin-top: 1rem; text-align: center; color: #4ade80; font-weight: 600; }
+
+  /* BOOKING MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(5,10,30,0.92); z-index: 2000;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #162040; border: 1px solid rgba(125,167,212,0.25);
+    border-radius: 20px; padding: 2.5rem; max-width: 520px; width: 90%;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); }
+  .modal-icon { font-size: 2.5rem; }
+  .close-btn {
+    background: none; border: none; color: var(--light-blue);
+    font-size: 1.5rem; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  .close-btn:hover { color: var(--white); }
+  .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1rem 0; }
+  .time-slot {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(125,167,212,0.2);
+    border-radius: 8px; padding: 0.6rem; text-align: center; cursor: pointer;
+    font-size: 0.85rem; color: var(--text-light); transition: all 0.2s;
+  }
+  .time-slot:hover, .time-slot.selected {
+    background: rgba(201,168,76,0.15); border-color: var(--soft-gold); color: var(--soft-gold);
+  }
+  .duration-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0; }
+  .dur-btn {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(125,167,212,0.2);
+    border-radius: 8px; padding: 0.5rem 1rem; cursor: pointer;
+    color: var(--text-light); font-size: 0.85rem; transition: all 0.2s;
+  }
+  .dur-btn:hover, .dur-btn.selected {
+    background: rgba(37,99,168,0.3); border-color: var(--light-blue); color: var(--white);
+  }
+  .booking-price { 
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px; padding: 1rem 1.5rem; margin: 1.5rem 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .booking-price .label { color: var(--light-blue); font-size: 0.9rem; }
+  .booking-price .amount { font-size: 1.4rem; font-weight: 700; color: var(--soft-gold); font-family: 'Playfair Display', serif; }
+  .book-confirm-btn {
+    width: 100%; background: linear-gradient(135deg, #2563a8, #1a3a6e);
+    color: white; font-weight: 700; font-size: 1rem;
+    padding: 1rem; border: none; border-radius: 10px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    border: 1px solid rgba(125,167,212,0.3);
+  }
+  .book-confirm-btn:hover { background: linear-gradient(135deg, #3273b8, #2050a0); transform: translateY(-2px); }
+  .booking-success { display:none; text-align:center; padding: 2rem 0; }
+  .booking-success .checkmark { font-size: 4rem; margin-bottom: 1rem; }
+  .booking-success h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; color: #4ade80; }
+  .booking-success p { color: var(--light-blue); }
+
+  /* HOW IT WORKS */
+  #how { background: #0f2044; }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step-card { text-align: center; padding: 2rem; }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-blue), var(--mid-blue));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+    margin: 0 auto 1.25rem; border: 2px solid rgba(125,167,212,0.3);
+  }
+  .step-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--white); }
+  .step-card p { font-size: 0.88rem; color: var(--light-blue); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    background: #08112a; border-top: 1px solid rgba(125,167,212,0.1);
+    padding: 3rem 2rem; text-align: center;
+  }
+  footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--soft-gold); margin-bottom: 1rem; }
+  footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+  /* DATE INPUT */
+  input[type=date] { color-scheme: dark; }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    .nav-links { display: none; }
+    .professions-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">✦ WomenServe</div>
+  <div class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#professions">Services</a>
+    <a href="#my-profile">My Profile</a>
+    <a href="#how">How It Works</a>
+  </div>
+  <button class="nav-btn" onclick="document.getElementById('my-profile').scrollIntoView({behavior:'smooth'})">Register Now</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-image-wrap">
+    <img src="data:image/jpeg;base64,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" alt="Women Entrepreneurs">
+  </div>
+  <div class="hero">
+    <h1>Empowering <span>Women</span><br>Professionals</h1>
+    <p>A digital marketplace connecting skilled women to customers — safely, professionally, and beautifully.</p>
+    <div class="hero-ctas">
+      <a href="#professions" class="btn-primary">Explore Services</a>
+      <a href="#my-profile" class="btn-outline">Register as a Professional</a>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- PROFESSIONS -->
+<section id="professions">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Types of Women Professionals</h2>
+      <p class="section-sub">Click on any profession to book a time slot and schedule a service with our verified experts.</p>
+    </div>
+    <div class="professions-grid" id="profGrid"></div>
+  </div>
+</section>
+
+<!-- MY PROFILE -->
+<section id="my-profile">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">For Professionals</div>
+      <h2 class="section-title">Set Up Your Profile</h2>
+      <p class="section-sub">Enter your name, profession, and service charges to get discovered by customers.</p>
+    </div>
+    <div class="profile-form-card">
+      <div class="form-group">
+        <label>Your Full Name</label>
+        <input type="text" id="profName" placeholder="e.g. Priya Sharma" />
+      </div>
+      <div class="form-group">
+        <label>Select Your Profession</label>
+        <select id="profProfession">
+          <option value="">— Choose your profession —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Service Charge (₹ per hour)</label>
+        <div class="price-row">
+          <span class="rupee-label">₹</span>
+          <input type="number" id="profCharge" placeholder="e.g. 500" min="0" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Short Bio / Description</label>
+        <textarea id="profBio" rows="3" placeholder="Tell customers about your experience and skills..."></textarea>
+      </div>
+      <button class="save-btn" onclick="saveProfile()">✦ Save My Profile</button>
+      <div class="success-msg" id="profileSuccess">🎉 Profile saved! Customers can now find and book you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Simple Process</div>
+      <h2 class="section-title">How It Works</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Register & Showcase</h3>
+        <p>Create your verified profile with skills, portfolio, and transparent pricing.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Discover & Browse</h3>
+        <p>Customers search by skill, location and reviews to find the perfect professional.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Choose & Book</h3>
+        <p>Pick a time slot, select duration, and confirm your booking securely.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Review & Grow</h3>
+        <p>Feedback builds your reputation and helps you reach more customers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">✦ WomenServe</div>
+  <p style="margin-top:0.5rem; color:var(--light-blue);">Empowering Women. Building Communities.</p>
+  <p style="margin-top:1.5rem;">© 2025 WomenServe Platform. All rights reserved.</p>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-icon" id="modalIcon"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+
+    <div id="bookingForm">
+      <div class="form-group">
+        <label>Select Date</label>
+        <input type="date" id="bookDate" />
+      </div>
+
+      <div class="form-group">
+        <label>Select Time Slot</label>
+        <div class="time-slots" id="timeSlots"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Select Duration</label>
+        <div class="duration-btns" id="durationBtns"></div>
+      </div>
+
+      <div class="booking-price">
+        <span class="label">Total Estimate</span>
+        <span class="amount" id="totalPrice">₹0</span>
+      </div>
+
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="custName" placeholder="Enter your name" />
+      </div>
+      <div class="form-group">
+        <label>Your Phone / WhatsApp</label>
+        <input type="text" id="custPhone" placeholder="+91 XXXXX XXXXX" />
+      </div>
+
+      <button class="book-confirm-btn" onclick="confirmBooking()">✦ Confirm Booking</button>
+    </div>
+
+    <div class="booking-success" id="bookingSuccess">
+      <div class="checkmark">✅</div>
+      <h3>Booking Confirmed!</h3>
+      <p id="successDetail"></p>
+      <button class="btn-primary" style="margin-top:1.5rem" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const professions = [
+  { name:"Beautician", icon:"💄", desc:"Hair styling, skincare, makeup & beauty treatments", rate:400 },
+  { name:"Nail Artist", icon:"💅", desc:"Nail art, manicures, gel nails & nail extensions", rate:350 },
+  { name:"Saree Draping Expert", icon:"🥻", desc:"Traditional & designer saree draping for all occasions", rate:500 },
+  { name:"Fashion Designer", icon:"👗", desc:"Custom clothing, alterations & fashion consulting", rate:600 },
+  { name:"Photographer", icon:"📸", desc:"Portraits, events, products & creative photography", rate:800 },
+  { name:"Content Creator", icon:"✍️", desc:"Writing, blogs, social media content & copywriting", rate:500 },
+  { name:"Plumber & Trades", icon:"🔧", desc:"Plumbing repairs, installations & maintenance", rate:450 },
+  { name:"Home Entrepreneur", icon:"🏠", desc:"Home-made food, crafts, baking & cottage industry", rate:300 },
+  { name:"Cooking / Chef", icon:"🍳", desc:"Home-cooked meals, tiffin service & catering", rate:400 },
+  { name:"Mehendi Artist", icon:"🌿", desc:"Bridal & casual mehendi / henna designs", rate:350 },
+  { name:"Yoga Instructor", icon:"🧘‍♀️", desc:"Yoga, meditation & wellness sessions", rate:500 },
+  { name:"Tutor / Teacher", icon:"📚", desc:"Private tutoring for school, college & competitive exams", rate:400 },
+];
+
+let selectedTime = null;
+let selectedDuration = 1;
+let currentRate = 0;
+let currentProf = '';
+
+// Populate professions grid
+const grid = document.getElementById('profGrid');
+const sel = document.getElementById('profProfession');
+professions.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'profession-card';
+  card.innerHTML = `
+    <span class="profession-icon">${p.icon}</span>
+    <h3>${p.name}</h3>
+    <p>${p.desc}</p>
+    <span class="profession-badge">From ₹${p.rate}/hr</span>
+  `;
+  card.onclick = () => openModal(p);
+  grid.appendChild(card);
+
+  const opt = document.createElement('option');
+  opt.value = p.name;
+  opt.textContent = p.icon + ' ' + p.name;
+  sel.appendChild(opt);
+});
+
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('bookDate').min = today;
+document.getElementById('bookDate').value = today;
+
+function openModal(prof) {
+  currentRate = prof.rate;
+  currentProf = prof.name;
+  selectedTime = null;
+  selectedDuration = 1;
+
+  document.getElementById('modalIcon').textContent = prof.icon;
+  document.getElementById('modalTitle').textContent = 'Book ' + prof.name;
+  document.getElementById('bookingForm').style.display = 'block';
+  document.getElementById('bookingSuccess').style.display = 'none';
+
+  // Time slots
+  const times = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
+  const tsDiv = document.getElementById('timeSlots');
+  tsDiv.innerHTML = '';
+  times.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'time-slot';
+    el.textContent = t;
+    el.onclick = () => { selectedTime = t; document.querySelectorAll('.time-slot').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); updatePrice(); };
+    tsDiv.appendChild(el);
+  });
+
+  // Duration buttons
+  const durations = [1,2,3,4];
+  const dbDiv = document.getElementById('durationBtns');
+  dbDiv.innerHTML = '';
+  durations.forEach(d => {
+    const el = document.createElement('button');
+    el.className = 'dur-btn' + (d===1?' selected':'');
+    el.textContent = d + ' hr' + (d>1?'s':'');
+    el.onclick = () => { selectedDuration = d; document.querySelectorAll('.dur-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); updatePrice(); };
+    dbDiv.appendChild(el);
+  });
+
+  updatePrice();
+  document.getElementById('bookingModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function updatePrice() {
+  document.getElementById('totalPrice').textContent = '₹' + (currentRate * selectedDuration).toLocaleString();
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function confirmBooking() {
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const date = document.getElementById('bookDate').value;
+  if (!name || !phone || !selectedTime) {
+    alert('Please fill in your name, phone and select a time slot.');
+    return;
+  }
+  const total = currentRate * selectedDuration;
+  document.getElementById('successDetail').innerHTML =
+    `<strong>${currentProf}</strong> booked for <strong>${selectedDuration} hr${selectedDuration>1?'s':''}</strong><br>` +
+    `📅 ${date} at ${selectedTime}<br>` +
+    `💰 Total: ₹${total.toLocaleString()}<br><br>` +
+    `We'll contact ${name} at ${phone} to confirm.`;
+  document.getElementById('bookingForm').style.display = 'none';
+  document.getElementById('bookingSuccess').style.display = 'block';
+}
+
+function saveProfile() {
+  const name = document.getElementById('profName').value.trim();
+  const prof = document.getElementById('profProfession').value;
+  const charge = document.getElementById('profCharge').value;
+  if (!name || !prof || !charge) {
+    alert('Please fill in all fields.');
+    return;
+  }
+  document.getElementById('profileSuccess').style.display = 'block';
+  setTimeout(() => document.getElementById('profileSuccess').style.display = 'none', 5000);
+}
+
+// Close modal on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
